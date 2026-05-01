@@ -1,0 +1,95 @@
+import argparse
+import os
+import sys
+import json
+import numpy as np
+import pandas as pd
+from typing import NoReturn
+from .core import Elastic
+from .plotting import plot_youngs_2d, plot_youngs_3d, plot_shear_2d, plot_shear_3d
+
+def main() -> None:
+    """The main entry point for the elastic-vis command-line interface.
+
+    Parses command-line arguments, calculates elastic properties from an input
+    stiffness matrix, and optionally generates visualization plots.
+    """
+    parser = argparse.ArgumentParser(description="Visualize anisotropic elastic properties from a stiffness tensor.")
+    parser.add_argument("input_file", help="Path to the file containing the 6x6 stiffness matrix (txt, csv, or json).")
+    parser.add_argument("--plot", action="store_true", help="Enable plot generation.")
+    parser.add_argument("--Young", action="store_true", help="Generate Young's Modulus plots.")
+    parser.add_argument("--Shear", action="store_true", help="Generate Shear Modulus plots.")
+    parser.add_argument("--2D", dest="plot_2d", action="store_true", help="Generate 2D polar plots.")
+    parser.add_argument("--3D", dest="plot_3d", action="store_true", help="Generate 3D surface plots.")
+    parser.add_argument("--output-prefix", help="Prefix for output image files.")
+    parser.add_argument("--style", help="Path to a JSON file containing matplotlib style settings.")
+
+    args = parser.parse_args()
+
+    if not os.path.exists(args.input_file):
+        print(f"Error: File {args.input_file} not found.")
+        sys.exit(1)
+
+    style_config = {}
+    if args.style:
+        if not os.path.exists(args.style):
+            print(f"Error: Style file {args.style} not found.")
+            sys.exit(1)
+        try:
+            with open(args.style, 'r') as f:
+                style_config = json.load(f)
+        except Exception as e:
+            print(f"Error parsing style JSON: {e}")
+            sys.exit(1)
+
+    try:
+        with open(args.input_file, 'r') as f:
+            content = f.read()
+        
+        material = Elastic(content)
+    except Exception as e:
+        print(f"Error parsing matrix: {e}")
+        sys.exit(1)
+
+    # Print basic properties
+    print("\n--- Elastic Properties ---")
+    averages = material.averages()
+    
+    df = pd.DataFrame(averages,
+                      columns=["Bulk (GPa)", "Young (GPa)", "Shear (GPa)", "Poisson"],
+                      index=["Voigt", "Reuss", "Hill"])
+    print(df)
+    
+    eigenvalues = material.eigenvalues()
+    print(f"\nEigenvalues: {eigenvalues}")
+    if np.all(eigenvalues > 0):
+        print("Material is mechanically stable.")
+    else:
+        print("Material is mechanically unstable.")
+
+    # Handle Plotting
+    if args.plot:
+        prefix = args.output_prefix if args.output_prefix else os.path.splitext(os.path.basename(args.input_file))[0]
+        
+        # Default to Young's if nothing specified but plot is true
+        target_young = args.Young or (not args.Shear)
+        target_shear = args.Shear
+        
+        # Default to both 2D and 3D if nothing specified
+        do_2d = args.plot_2d or (not args.plot_3d)
+        do_3d = args.plot_3d or (not args.plot_2d)
+
+        if target_young:
+            if do_2d:
+                plot_youngs_2d(material, prefix, style_config)
+            if do_3d:
+                plot_youngs_3d(material, prefix, style_config)
+        
+        if target_shear:
+            if do_2d:
+                plot_shear_2d(material, prefix, style_config)
+            if do_3d:
+                plot_shear_3d(material, prefix, style_config)
+
+if __name__ == "__main__":
+    main()

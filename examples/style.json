@@ -1,0 +1,23 @@
+{
+  "dpi": 600,
+  "colormap": "viridis",
+  "title_font": {
+    "fontsize": 16,
+    "fontweight": "bold",
+    "family": "serif"
+  },
+  "label_font": {
+    "fontsize": 14,
+    "fontweight": "bold"
+  },
+  "line": {
+    "color": "green",
+    "width": 2,
+    "max_color": "purple"
+  },
+  "figure": {
+    "figsize_2d": [18, 6],
+    "figsize_3d": [12, 12],
+    "transparent": false
+  }
+}
