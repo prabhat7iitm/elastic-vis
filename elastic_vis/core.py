@@ -133,18 +133,7 @@ class Elastic:
         try:
             mat = np.array(mat)
         except:
-            if list(map(len, mat)) == [6,5,4,3,2,1]:
-                mat = [[0]*i + mat[i] for i in range(6)]
-                mat = np.array(mat)
-            if list(map(len, mat)) == [3,2,1]:
-                mat = [[0]*i + mat[i] for i in range(3)]
-                mat = np.array(mat)
-            if list(map(len, mat)) == [1,2,3,4,5,6]:
-                mat = [mat[i] + [0]*(5-i) for i in range(6)]
-                mat = np.array(mat)
-            if list(map(len, mat)) == [1,2,3]:
-                mat = [mat[i] + [0]*(2-i) for i in range(3)]
-                mat = np.array(mat)
+            raise ValueError("input must be a 6x6 stiffness matrix")
 
         if not isinstance(mat, np.ndarray):
             raise ValueError("input must be a 6x6 stiffness matrix")
@@ -407,12 +396,7 @@ class Elastic2D:
         try:
             mat = np.array(mat)
         except:
-            if list(map(len, mat)) == [3,2,1]:
-                mat = [ [0]*i + mat[i] for i in range(3) ]
-                mat = np.array(mat)
-            if list(map(len, mat)) == [1,2,3]:
-                mat = [ mat[i] + [0]*(2-i) for i in range(3) ]
-                mat = np.array(mat)
+            raise ValueError("input must be a 3x3 stiffness matrix")
 
         if not isinstance(mat, np.ndarray) or mat.shape != (3,3):
             raise ValueError("input must be a 3x3 stiffness matrix")
