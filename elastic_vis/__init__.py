@@ -3,7 +3,11 @@ from .plotting import (
     plot_youngs_2d, 
     plot_youngs_3d, 
     plot_shear_2d, 
-    plot_shear_3d
+    plot_shear_3d,
+    plot_poisson_2d,
+    plot_poisson_3d,
+    plot_lc_2d,
+    plot_lc_3d,
 )
 
 __all__ = [
@@ -13,5 +17,9 @@ __all__ = [
     'plot_youngs_2d',
     'plot_youngs_3d',
     'plot_shear_2d',
-    'plot_shear_3d'
+    'plot_shear_3d',
+    'plot_poisson_2d',
+    'plot_poisson_3d',
+    'plot_lc_2d',
+    'plot_lc_3d'
 ]
