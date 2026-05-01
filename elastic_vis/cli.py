@@ -22,6 +22,7 @@ def main() -> None:
     parser.add_argument("--2D", dest="plot_2d", action="store_true", help="Generate 2D polar plots.")
     parser.add_argument("--3D", dest="plot_3d", action="store_true", help="Generate 3D surface plots.")
     parser.add_argument("--output-prefix", help="Prefix for output image files.")
+    parser.add_argument("--format", dest="output_format", choices=["png", "pdf", "svg"], default="png", help="Output file format for plots.")
     parser.add_argument("--style", help="Path to a JSON file containing matplotlib style settings.")
     parser.add_argument("--show", action="store_true", help="Show plots on screen.")
 
@@ -82,15 +83,15 @@ def main() -> None:
 
         if target_young:
             if do_2d:
-                plot_youngs_2d(material, prefix, style_config, show=args.show)
+                plot_youngs_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
             if do_3d:
-                plot_youngs_3d(material, prefix, style_config, show=args.show)
+                plot_youngs_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
         
         if target_shear:
             if do_2d:
-                plot_shear_2d(material, prefix, style_config, show=args.show)
+                plot_shear_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
             if do_3d:
-                plot_shear_3d(material, prefix, style_config, show=args.show)
+                plot_shear_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
 
 if __name__ == "__main__":
     main()
