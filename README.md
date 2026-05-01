@@ -40,6 +40,11 @@ To generate 2D and 3D plots for both Young's and Shear Modulus, and show them on
 elastic-vis examples/matrix.txt --plot --Young --Shear --2D --3D --show
 ```
 
+To save plots as PDF instead of PNG:
+```bash
+elastic-vis examples/matrix.txt --plot --Young --Shear --2D --3D --format pdf
+```
+
 #### Custom Styling
 You can provide a JSON file to customize every aspect of the plots:
 ```bash

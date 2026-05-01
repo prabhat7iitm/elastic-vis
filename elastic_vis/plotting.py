@@ -33,7 +33,11 @@ def get_style(config: Optional[Dict[str, Any]], key: str, default: Any) -> Any:
     """Helper to retrieve a style setting from config or return a default."""
     return config.get(key, default) if config else default
 
-def plot_youngs_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+def build_filename(prefix: str, suffix: str, output_format: str) -> str:
+    """Build a plot filename with the requested output format."""
+    return f"{prefix}_{suffix}.{output_format}"
+
+def plot_youngs_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False, output_format: str = "png") -> None:
     """Generates 2D polar plots of Young's Modulus."""
     set_publishable_style(style_config)
     
@@ -70,7 +74,7 @@ def plot_youngs_2d(material: Elastic, prefix: str, style_config: Optional[Dict[s
         ax.set_theta_direction(-1)
 
     plt.tight_layout()
-    filename = f"{prefix}_Youngs_Modulus_Polar_2D.png"
+    filename = build_filename(prefix, "Youngs_Modulus_Polar_2D", output_format)
     dpi = get_style(style_config.get("general", {}), "dpi", 300) if style_config else 300
     plt.savefig(filename, dpi=dpi)
     if show:
@@ -78,7 +82,7 @@ def plot_youngs_2d(material: Elastic, prefix: str, style_config: Optional[Dict[s
     plt.close()
     print(f"Saved 2D Young's Modulus plot to {filename}")
 
-def plot_youngs_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+def plot_youngs_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False, output_format: str = "png") -> None:
     """Generates a 3D surface plot of Young's Modulus."""
     set_publishable_style(style_config)
     
@@ -146,7 +150,7 @@ def plot_youngs_3d(material: Elastic, prefix: str, style_config: Optional[Dict[s
     azim = cfg_3d.get("view_azimuth", 45)
     ax.view_init(elev=elev, azim=azim)
 
-    filename = f"{prefix}_Youngs_Modulus_3D.png"
+    filename = build_filename(prefix, "Youngs_Modulus_3D", output_format)
     gen = style_config.get("general", {}) if style_config else {}
     dpi = gen.get("dpi", 300)
     transparent = gen.get("transparent", True)
@@ -156,7 +160,7 @@ def plot_youngs_3d(material: Elastic, prefix: str, style_config: Optional[Dict[s
     plt.close()
     print(f"Saved 3D Young's Modulus plot to {filename}")
 
-def plot_shear_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+def plot_shear_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False, output_format: str = "png") -> None:
     """Generates 2D polar plots of Shear Modulus."""
     set_publishable_style(style_config)
     
@@ -202,7 +206,7 @@ def plot_shear_2d(material: Elastic, prefix: str, style_config: Optional[Dict[st
             ax.legend(loc='lower right', bbox_to_anchor=(1.3, 0.1), fontsize=label_font_size)
 
     plt.tight_layout()
-    filename = f"{prefix}_Shear_Modulus_Polar_2D.png"
+    filename = build_filename(prefix, "Shear_Modulus_Polar_2D", output_format)
     dpi = get_style(style_config.get("general", {}), "dpi", 300) if style_config else 300
     plt.savefig(filename, dpi=dpi)
     if show:
@@ -210,7 +214,7 @@ def plot_shear_2d(material: Elastic, prefix: str, style_config: Optional[Dict[st
     plt.close()
     print(f"Saved 2D Shear Modulus plot to {filename}")
 
-def plot_shear_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+def plot_shear_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False, output_format: str = "png") -> None:
     """Generates a 3D surface plot of Maximum Shear Modulus."""
     set_publishable_style(style_config)
     
@@ -278,7 +282,7 @@ def plot_shear_3d(material: Elastic, prefix: str, style_config: Optional[Dict[st
     azim = cfg_3d.get("view_azimuth", 45)
     ax.view_init(elev=elev, azim=azim)
 
-    filename = f"{prefix}_Shear_Modulus_3D.png"
+    filename = build_filename(prefix, "Shear_Modulus_3D", output_format)
     gen = style_config.get("general", {}) if style_config else {}
     dpi = gen.get("dpi", 300)
     transparent = gen.get("transparent", True)
