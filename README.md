@@ -110,7 +110,9 @@ The `style.json` file provides granular control over the visuals. It is organize
 
 ## Input Format
 
-The input should be a 6x6 stiffness matrix in GPa (Voigt notation). It can be a simple `.txt` file:
+The input must be a 6x6 stiffness matrix in GPa (Voigt notation). If the file is not 6x6, `elastic-vis` exits with an error instead of trying to infer the shape.
+
+It can be a simple `.txt` file:
 ```text
 20.49     0.55     7.42        0        0        0  
 0.55    23.12     2.17        0        0        0  

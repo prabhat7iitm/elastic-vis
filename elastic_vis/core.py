@@ -104,7 +104,8 @@ class Elastic:
                a numpy array, or a JSON string representation.
 
         Raises:
-            ValueError: If the input matrix is invalid, non-square, or non-symmetric.
+            ValueError: If the input matrix is not 6x6, is invalid, non-square,
+                or non-symmetric.
             TypeError: If the input corresponds to a 2D material.
         """
         if isinstance(s, str):
@@ -146,11 +147,11 @@ class Elastic:
                 mat = np.array(mat)
 
         if not isinstance(mat, np.ndarray):
-            raise ValueError("should be a square or triangular matrix")
+            raise ValueError("input must be a 6x6 stiffness matrix")
         if mat.shape == (3,3):
             raise TypeError("is a 2D material")
         if mat.shape != (6,6):
-            raise ValueError("should be a square or triangular matrix")
+            raise ValueError("input must be a 6x6 stiffness matrix")
 
         if np.linalg.norm(np.tril(mat, -1)) == 0:
             mat = mat + np.triu(mat, 1).transpose()
@@ -300,11 +301,11 @@ class Elastic:
 
         return [ [KV, 1/(1/(3*GV) + 1/(9*KV)), GV, (1 - 3*GV/(3*KV+GV))/2],
                  [KR, 1/(1/(3*GR) + 1/(9*KR)), GR, (1 - 3*GR/(3*KR+GR))/2],
-                 [KH, 1/(1/(3*GH) + 1/(9*GH)), GH, (1 - 3*GH/(3*KH+GH))/2] ]
+                 [KH, 1/(1/(3*GH) + 1/(9*KH)), GH, (1 - 3*GH/(3*KH+GH))/2] ]
 
     def eigenvalues(self) -> np.ndarray:
         """Calculates the eigenvalues of the stiffness matrix."""
-        return np.sort(np.linalg.eig(self.CVoigt)[0])
+        return np.sort(np.linalg.eigvalsh(self.CVoigt))
 
     def shear2D(self, x: Union[List[float], np.ndarray]) -> Tuple[float, float]:
         """Finds min and max shear modulus for a direction [theta, phi]."""
@@ -414,7 +415,7 @@ class Elastic2D:
                 mat = np.array(mat)
 
         if not isinstance(mat, np.ndarray) or mat.shape != (3,3):
-            raise ValueError("should be a 3x3 square or triangular matrix")
+            raise ValueError("input must be a 3x3 stiffness matrix")
 
         if np.linalg.norm(np.tril(mat, -1)) == 0:
             mat = mat + np.triu(mat, 1).transpose()
@@ -467,4 +468,4 @@ class Elastic2D:
 
     def eigenvalues(self) -> np.ndarray:
         """Calculates eigenvalues of the 2D stiffness matrix."""
-        return np.sort(np.linalg.eig(self.CVoigt)[0])
+        return np.sort(np.linalg.eigvalsh(self.CVoigt))
