@@ -71,7 +71,7 @@ def plot_youngs_2d(material: Elastic, prefix: str, style_config: Optional[Dict[s
         ax.tick_params(labelsize=label_font_size)
         ax.grid(True)
         ax.set_theta_zero_location('E')
-        ax.set_theta_direction(-1)
+        ax.set_theta_direction(1)
 
     plt.tight_layout()
     filename = build_filename(prefix, "Youngs_Modulus_Polar_2D", output_format)
@@ -194,7 +194,7 @@ def plot_lc_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, 
         ax.tick_params(labelsize=label_font_size)
         ax.grid(True)
         ax.set_theta_zero_location('E')
-        ax.set_theta_direction(-1)
+        ax.set_theta_direction(1)
 
     plt.tight_layout()
     filename = build_filename(prefix, "Linear_Compressibility_Polar_2D", output_format)
@@ -324,7 +324,7 @@ def plot_shear_2d(material: Elastic, prefix: str, style_config: Optional[Dict[st
         ax.tick_params(labelsize=label_font_size)
         ax.grid(True)
         ax.set_theta_zero_location('E')
-        ax.set_theta_direction(-1)
+        ax.set_theta_direction(1)
         if i == 2:
             ax.legend(loc='lower right', bbox_to_anchor=(1.3, 0.1), fontsize=label_font_size)
 
@@ -378,7 +378,7 @@ def plot_poisson_2d(material: Elastic, prefix: str, style_config: Optional[Dict[
         ax.tick_params(labelsize=label_font_size)
         ax.grid(True)
         ax.set_theta_zero_location('E')
-        ax.set_theta_direction(-1)
+        ax.set_theta_direction(1)
         if i == 2:
             ax.legend(loc='lower right', bbox_to_anchor=(1.3, 0.1), fontsize=label_font_size)
 
