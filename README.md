@@ -17,7 +17,7 @@
 
 ## Installation
 
-You can install the package locally for development:
+You can install the package by cloning and performing:
 
 ```bash
 pip install .
