@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "elastic-vis"
+version = "0.1.0"
+description = "Anisotropic Elastic Property Visualization"
+readme = "README.md"
+authors = [{name = "Pranav", email = "pranav@example.com"}]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "pandas"
+]
+
+[project.scripts]
+elastic-vis = "elastic_vis.cli:main"

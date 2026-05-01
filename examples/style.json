@@ -1,0 +1,31 @@
+{
+  "general": {
+    "font_family": "serif",
+    "dpi": 600,
+    "transparent": false
+  },
+  "plots_2d": {
+    "figsize": [18, 7],
+    "title_size": 20,
+    "label_size": 14,
+    "line_width": 3.0,
+    "min_color": "#0072B2",
+    "max_color": "#D55E00",
+    "font_weight": "bold",
+    "font_family": "serif"
+  },
+  "plots_3d": {
+    "figsize": [12, 10],
+    "title_size": 22,
+    "label_size": 16,
+    "font_weight": "normal",
+    "font_family": "serif",
+    "colormap": "magma",
+    "view_elevation": 25,
+    "view_azimuth": 45,
+    "rcount": 150,
+    "ccount": 150,
+    "vmin": null,
+    "vmax": null
+  }
+}
