@@ -6,7 +6,12 @@ import numpy as np
 import pandas as pd
 from typing import NoReturn
 from .core import Elastic
-from .plotting import plot_youngs_2d, plot_youngs_3d, plot_shear_2d, plot_shear_3d
+from .plotting import (
+    plot_youngs_2d, plot_youngs_3d,
+    plot_shear_2d, plot_shear_3d,
+    plot_poisson_2d, plot_poisson_3d,
+    plot_lc_2d, plot_lc_3d,
+)
 
 def main() -> None:
     """The main entry point for the elastic-vis command-line interface.
@@ -19,6 +24,8 @@ def main() -> None:
     parser.add_argument("--plot", action="store_true", help="Enable plot generation.")
     parser.add_argument("--Young", action="store_true", help="Generate Young's Modulus plots.")
     parser.add_argument("--Shear", action="store_true", help="Generate Shear Modulus plots.")
+    parser.add_argument("--Poisson", action="store_true", help="Generate Poisson's Ratio plots.")
+    parser.add_argument("--LC", action="store_true", help="Generate Linear Compressibility plots.")
     parser.add_argument("--2D", dest="plot_2d", action="store_true", help="Generate 2D polar plots.")
     parser.add_argument("--3D", dest="plot_3d", action="store_true", help="Generate 3D surface plots.")
     parser.add_argument("--output-prefix", help="Prefix for output image files.")
@@ -74,8 +81,10 @@ def main() -> None:
         prefix = args.output_prefix if args.output_prefix else os.path.splitext(os.path.basename(args.input_file))[0]
         
         # Default to Young's if nothing specified but plot is true
-        target_young = args.Young or (not args.Shear)
+        target_young = args.Young or (not (args.Shear or args.Poisson or args.LC))
         target_shear = args.Shear
+        target_poisson = args.Poisson
+        target_lc = args.LC
         
         # Default to both 2D and 3D if nothing specified
         do_2d = args.plot_2d or (not args.plot_3d)
@@ -92,6 +101,18 @@ def main() -> None:
                 plot_shear_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
             if do_3d:
                 plot_shear_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+
+        if target_poisson:
+            if do_2d:
+                plot_poisson_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+            if do_3d:
+                plot_poisson_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+
+        if target_lc:
+            if do_2d:
+                plot_lc_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+            if do_3d:
+                plot_lc_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
 
 if __name__ == "__main__":
     main()
