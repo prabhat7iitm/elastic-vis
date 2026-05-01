@@ -308,39 +308,40 @@ class Elastic:
 
     def shear2D(self, x: Union[List[float], np.ndarray]) -> Tuple[float, float]:
         """Finds min and max shear modulus for a direction [theta, phi]."""
-        ftol, xtol = 0.001, 0.01
-        def func1(z): return self.shear([x[0], x[1], z[0]])
-        r1 = optimize.minimize(func1, np.pi/2.0, method='Powell', options={"xtol":xtol, "ftol":ftol})
-        def func2(z): return -self.shear([x[0], x[1], z[0]])
-        r2 = optimize.minimize(func2, np.pi/2.0, method='Powell', options={"xtol":xtol, "ftol":ftol})
-        return (float(r1.fun), -float(r2.fun))
+        def func(chi): return self.shear([x[0], x[1], chi])
+        
+        # Use a robust 1D bounded optimizer
+        res_min = optimize.minimize_scalar(func, bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        res_max = optimize.minimize_scalar(lambda c: -func(c), bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        
+        return (float(res_min.fun), -float(res_max.fun))
 
-    def shear3D(self, theta: float, phi: float, guess1: float = np.pi/2.0, guess2: float = np.pi/2.0) -> Tuple[float, float, float, float]:
-        """Finds min and max shear modulus for a direction (theta, phi) with guesses."""
-        tol = 0.005
-        def func1(z): return self.shear([theta, phi, z[0]])
-        r1 = optimize.minimize(func1, guess1, method='COBYLA', options={"tol":tol})
-        def func2(z): return -self.shear([theta, phi, z[0]])
-        r2 = optimize.minimize(func2, guess2, method='COBYLA', options={"tol":tol})
-        return (float(r1.fun), -float(r2.fun), float(r1.x[0]), float(r2.x[0]))
+    def shear3D(self, theta: float, phi: float, guess1: Optional[float] = None, guess2: Optional[float] = None) -> Tuple[float, float, float, float]:
+        """Finds min and max shear modulus for a direction (theta, phi)."""
+        def func(chi): return self.shear([theta, phi, chi])
+        
+        res_min = optimize.minimize_scalar(func, bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        res_max = optimize.minimize_scalar(lambda c: -func(c), bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        
+        return (float(res_min.fun), -float(res_max.fun), float(res_min.x), float(res_max.x))
 
-    def Poisson2D(self, x: Union[List[float], np.ndarray]) -> Tuple[float, float, float]:
-        """Finds min, max, and range of Poisson's ratio for a direction [theta, phi]."""
-        ftol, xtol = 0.001, 0.01
-        def func1(z): return self.Poisson([x[0], x[1], z[0]])
-        r1 = optimize.minimize(func1, np.pi/2.0, method='Powell', options={"xtol":xtol, "ftol":ftol})
-        def func2(z): return -self.Poisson([x[0], x[1], z[0]])
-        r2 = optimize.minimize(func2, np.pi/2.0, method='Powell', options={"xtol":xtol, "ftol":ftol})
-        return (min(0, float(r1.fun)), max(0, float(r1.fun)), -float(r2.fun))
+    def Poisson2D(self, x: Union[List[float], np.ndarray]) -> Tuple[float, float]:
+        """Finds min and max Poisson's ratio for a direction [theta, phi]."""
+        def func(chi): return self.Poisson([x[0], x[1], chi])
+        
+        res_min = optimize.minimize_scalar(func, bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        res_max = optimize.minimize_scalar(lambda c: -func(c), bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        
+        return (float(res_min.fun), -float(res_max.fun))
 
-    def Poisson3D(self, theta: float, phi: float, guess1: float = np.pi/2.0, guess2: float = np.pi/2.0) -> Tuple[float, float, float, float, float]:
-        """Finds Poisson's ratio extremes for a direction (theta, phi) with guesses."""
-        tol = 0.005
-        def func1(z): return self.Poisson([theta, phi, z[0]])
-        r1 = optimize.minimize(func1, guess1, method='COBYLA', options={"tol":tol})
-        def func2(z): return -self.Poisson([theta, phi, z[0]])
-        r2 = optimize.minimize(func2, guess2, method='COBYLA', options={"tol":tol})
-        return (min(0, float(r1.fun)), max(0, float(r1.fun)), -float(r2.fun), float(r1.x[0]), float(r2.x[0]))
+    def Poisson3D(self, theta: float, phi: float) -> Tuple[float, float, float, float]:
+        """Finds Poisson's ratio extremes for a direction (theta, phi)."""
+        def func(chi): return self.Poisson([theta, phi, chi])
+        
+        res_min = optimize.minimize_scalar(func, bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        res_max = optimize.minimize_scalar(lambda c: -func(c), bounds=(0, np.pi), method='bounded', options={'xatol': 1e-5})
+        
+        return (float(res_min.fun), -float(res_max.fun), float(res_min.x), float(res_max.x))
 
 
 class ElasticOrtho(Elastic):

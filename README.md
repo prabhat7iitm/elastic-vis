@@ -1,15 +1,18 @@
 # Elastic Vis: Anisotropic Elastic Property Visualization
 
-`elastic-vis` is a Python tool for computing and visualizing anisotropic elastic properties (such as Young's Modulus and Shear Modulus) from a 6x6 stiffness tensor (Voigt notation). It provides both 2D polar plots and 3D surface representations.
+`elastic-vis` is a robust Python tool for computing and visualizing anisotropic elastic properties (such as Young's Modulus and Shear Modulus) from a 6x6 stiffness tensor (Voigt notation). It provides high-resolution 2D polar plots and 3D surface representations designed for academic publication.
 
-## Features
+## Key Features
 
 - **Elastic Properties Analysis**: Calculates Voigt, Reuss, and Hill averages for Bulk, Young's, and Shear moduli.
 - **Stability Analysis**: Checks material mechanical stability using stiffness matrix eigenvalues.
-- **2D Visualization**: Generates polar plots of elastic properties in specific planes.
-- **3D Visualization**: Generates 3D surface representations of the directional dependence of elastic moduli.
-- **Customizable Styling**: Support for custom matplotlib styles via JSON configuration.
-- **CLI Interface**: Easy-to-use command-line interface.
+- **High-Resolution Visualization**:
+  - **2D Polar Plots**: Directional dependence in specific planes (XY, YZ, ZX) with perfect symmetry using bounded 1D optimization.
+  - **3D Surface Plots**: Full 3D representations of directional properties with customizable perspective and high mesh density.
+- **Publication-Quality Styling**: Rich support for custom fonts, colormaps, and layout settings via an intuitive JSON schema.
+- **Robust Optimization**: Uses `scipy.optimize` with bounded search to ensure global extremes are accurately captured.
+- **Versatile Input**: Supports stiffness matrices as strings, lists, or `numpy` arrays.
+- **CLI Interface**: Powerful command-line tool for batch processing.
 
 ## Installation
 
@@ -32,65 +35,82 @@ elastic-vis examples/matrix.txt
 ```
 
 #### Generate Plots
-To generate 2D and 3D plots for Young's Modulus:
+To generate 2D and 3D plots for both Young's and Shear Modulus, and show them on screen:
 ```bash
-elastic-vis examples/matrix.txt --plot --Young --2D --3D
+elastic-vis examples/matrix.txt --plot --Young --Shear --2D --3D --show
 ```
 
 #### Custom Styling
-You can provide a JSON file to customize the plot appearance (colors, fonts, etc.):
+You can provide a JSON file to customize every aspect of the plots:
 ```bash
 elastic-vis examples/matrix.txt --plot --style examples/style.json
 ```
 
-### Options
-
-| Argument | Description |
-| --- | --- |
-| `input_file` | Path to the 6x6 stiffness matrix (txt, csv, or json) |
-| `--plot` | Enable plot generation |
-| `--Young` | Generate Young's Modulus plots |
-| `--Shear` | Generate Shear Modulus plots |
-| `--2D` | Generate 2D polar plots |
-| `--3D` | Generate 3D surface plots |
-| `--style` | Path to a JSON matplotlib style file |
-| `--output-prefix`| Prefix for output image files |
-
 ### Python API
 
-You can also use the library directly in your Python scripts:
+You can also use the library directly in your Python scripts. The `Elastic` class handles `numpy` arrays directly:
 
 ```python
+import numpy as np
 from elastic_vis import Elastic, plot_youngs_3d
 
-# Load matrix from string or list
-matrix_data = """
-20.49     0.55     7.42        0        0        0  
-0.55    23.12     2.17        0        0        0  
-7.42     2.17    18.61        0        0        0  
-0        0        0     6.18        0        0  
-0        0        0        0    12.08        0  
-0        0        0        0        0     4.46
-"""
-material = Elastic(matrix_data)
+# Using a numpy array
+matrix = np.array([
+    [20.49, 0.55, 7.42, 0, 0, 0],
+    [0.55, 23.12, 2.17, 0, 0, 0],
+    [7.42, 2.17, 18.61, 0, 0, 0],
+    [0, 0, 0, 6.18, 0, 0],
+    [0, 0, 0, 0, 12.08, 0],
+    [0, 0, 0, 0, 0, 4.46]
+])
+
+material = Elastic(matrix)
 
 # Get Hill averages
 averages = material.averages()
-print(f"Hill Bulk Modulus: {averages[2][0]} GPa")
+print(f"Hill Bulk Modulus: {averages[2][0]:.2f} GPa")
 
-# Generate a 3D plot
-plot_youngs_3d(material, "my_material")
+# Generate and show a 3D plot
+plot_youngs_3d(material, "my_material", show=True)
 ```
 
-## Project Structure
+## Customizable Styling (`style.json`)
 
-- `elastic_vis/`: Core package containing the logic for calculations and plotting.
-- `examples/`: Example stiffness matrices and styling configurations.
-- `pyproject.toml`: Project metadata and dependency definitions.
+The `style.json` file provides granular control over the visuals. It is organized into three intuitive sections:
+
+```json
+{
+  "general": {
+    "font_family": "serif",
+    "dpi": 600,
+    "transparent": false
+  },
+  "plots_2d": {
+    "figsize": [18, 7],
+    "title_size": 20,
+    "label_size": 14,
+    "line_width": 3.0,
+    "min_color": "#0072B2",
+    "max_color": "#D55E00",
+    "font_weight": "bold"
+  },
+  "plots_3d": {
+    "figsize": [12, 10],
+    "title_size": 22,
+    "label_size": 16,
+    "font_weight": "normal",
+    "colormap": "magma",
+    "view_elevation": 25,
+    "view_azimuth": 45,
+    "rcount": 200,
+    "ccount": 200
+  }
+}
+```
 
 ## Input Format
 
-The input should be a 6x6 stiffness matrix in GPa. Example (`examples/matrix.txt`):
+The input should be a 6x6 stiffness matrix in GPa (Voigt notation). It can be a simple `.txt` file:
 ```text
 20.49     0.55     7.42        0        0        0  
 0.55    23.12     2.17        0        0        0  

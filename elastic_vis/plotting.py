@@ -4,71 +4,87 @@ from matplotlib import cm, colors
 from typing import Optional, Dict, Any, Tuple
 from .core import Elastic
 
+def set_publishable_style(style_config: Optional[Dict[str, Any]] = None):
+    """Sets a clean, publication-quality style for matplotlib plots."""
+    # Base defaults
+    plt.rcParams.update({
+        "font.family": "serif",
+        "mathtext.fontset": "stix",
+        "axes.linewidth": 1.5,
+        "grid.linewidth": 0.5,
+        "grid.alpha": 0.7,
+        "grid.linestyle": "--",
+        "savefig.bbox": "tight"
+    })
+    
+    if style_config:
+        gen = style_config.get("general", {})
+        if "font_family" in gen:
+            plt.rcParams["font.family"] = gen["font_family"]
+        
+        # Apply global sizes if defined at root (backward compatibility)
+        if "label_font" in style_config:
+            fs = style_config["label_font"].get("fontsize", 14)
+            plt.rcParams["axes.labelsize"] = fs
+            plt.rcParams["xtick.labelsize"] = fs - 2
+            plt.rcParams["ytick.labelsize"] = fs - 2
+
 def get_style(config: Optional[Dict[str, Any]], key: str, default: Any) -> Any:
-    """Helper to retrieve a style setting from config or return a default.
-
-    Args:
-        config: The style configuration dictionary.
-        key: The key to look for.
-        default: The default value if key is not found.
-
-    Returns:
-        The configuration value or default.
-    """
+    """Helper to retrieve a style setting from config or return a default."""
     return config.get(key, default) if config else default
 
-def plot_youngs_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None) -> None:
-    """Generates 2D polar plots of Young's Modulus in XY, YZ, and ZX planes.
-
-    Args:
-        material: The Elastic material object.
-        prefix: Prefix for the output filename.
-        style_config: Optional dictionary with matplotlib style settings.
-    """
-    phi = np.linspace(0, 2 * np.pi, 100)
+def plot_youngs_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+    """Generates 2D polar plots of Young's Modulus."""
+    set_publishable_style(style_config)
+    
+    cfg_2d = get_style(style_config, "plots_2d", {})
+    phi = np.linspace(0, 2 * np.pi, 500)
     f = np.vectorize(material.Young_2)
 
     r_xy = f(np.pi / 2, phi)
     r_yz = f(phi - np.pi/2, np.pi/2)
     r_zx = f(phi, 0)
 
-    fig_config = get_style(style_config, "figure", {})
-    figsize = fig_config.get("figsize_2d", [15, 5])
-    
+    figsize = cfg_2d.get("figsize", [15, 6])
     fig, axes = plt.subplots(1, 3, subplot_kw={'projection': 'polar'}, figsize=figsize)
-    title_font = get_style(style_config, "title_font", {'fontsize': 14, 'fontweight': 'bold', 'family': 'sans-serif'})
-    line_config = get_style(style_config, "line", {})
-    line_color = line_config.get("color", "b")
-    line_width = line_config.get("width", 3)
+    
+    title_font = {
+        'fontsize': cfg_2d.get("title_size", 18),
+        'fontweight': cfg_2d.get("font_weight", "bold"),
+        'family': cfg_2d.get("font_family", plt.rcParams["font.family"])
+    }
+    
+    label_font_size = cfg_2d.get("label_size", 12)
+    line_color = cfg_2d.get("line_color", "#0072B2")
+    line_width = cfg_2d.get("line_width", 3.0)
 
-    axes[0].plot(phi, r_xy, color=line_color, linewidth=line_width)
-    axes[0].set_title("XY Plane", fontdict=title_font)
+    planes = ["XY Plane", "YZ Plane", "ZX Plane"]
+    data = [r_xy, r_yz, r_zx]
 
-    axes[1].plot(phi, r_yz, color=line_color, linewidth=line_width)
-    axes[1].set_title("YZ Plane", fontdict=title_font)
-
-    axes[2].plot(phi, r_zx, color=line_color, linewidth=line_width)
-    axes[2].set_title("ZX Plane", fontdict=title_font)
-
-    for ax in axes:
+    for i, ax in enumerate(axes):
+        ax.plot(phi, data[i], color=line_color, linewidth=line_width)
+        ax.set_title(planes[i], pad=20, fontdict=title_font)
+        ax.tick_params(labelsize=label_font_size)
         ax.grid(True)
+        ax.set_theta_zero_location('N')
+        ax.set_theta_direction(-1)
 
     plt.tight_layout()
     filename = f"{prefix}_Youngs_Modulus_Polar_2D.png"
-    dpi = get_style(style_config, "dpi", 300)
+    dpi = get_style(style_config.get("general", {}), "dpi", 300) if style_config else 300
     plt.savefig(filename, dpi=dpi)
+    if show:
+        plt.show()
     plt.close()
     print(f"Saved 2D Young's Modulus plot to {filename}")
 
-def plot_youngs_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None) -> None:
-    """Generates a 3D surface plot of Young's Modulus directional dependence.
-
-    Args:
-        material: The Elastic material object.
-        prefix: Prefix for the output filename.
-        style_config: Optional dictionary with matplotlib style settings.
-    """
-    def spherical_grid(npoints=200):
+def plot_youngs_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+    """Generates a 3D surface plot of Young's Modulus."""
+    set_publishable_style(style_config)
+    
+    cfg_3d = get_style(style_config, "plots_3d", {})
+    
+    def spherical_grid(npoints=300):
         theta = np.linspace(0, np.pi, npoints)
         phi = np.linspace(0, 2 * np.pi, npoints)
         return np.meshgrid(theta, phi)
@@ -85,110 +101,122 @@ def plot_youngs_3d(material: Elastic, prefix: str, style_config: Optional[Dict[s
 
     x, y, z = spherical_coord(r, theta, phi)
     
-    fig_config = get_style(style_config, "figure", {})
-    figsize = fig_config.get("figsize_3d", [10, 10])
-    
+    figsize = cfg_3d.get("figsize", [12, 10])
     fig = plt.figure(figsize=figsize)
-    ax = plt.axes(projection="3d")
-
-    vmin = style_config.get("vmin") if style_config and style_config.get("vmin") is not None else np.min(r)
-    vmax = style_config.get("vmax") if style_config and style_config.get("vmax") is not None else np.max(r)
+    ax = fig.add_subplot(111, projection="3d")
+    ax.set_box_aspect([1,1,1])
+    
+    vmin = cfg_3d.get("vmin") if cfg_3d.get("vmin") is not None else np.min(r)
+    vmax = cfg_3d.get("vmax") if cfg_3d.get("vmax") is not None else np.max(r)
     
     norm = colors.Normalize(vmin=vmin, vmax=vmax)
-    cmap_name = get_style(style_config, "colormap", "turbo")
-    cmap = getattr(cm, cmap_name, cm.turbo)
+    cmap_name = cfg_3d.get("colormap", "plasma")
+    cmap = getattr(cm, cmap_name, cm.plasma)
+
+    rcount = cfg_3d.get("rcount", 200)
+    ccount = cfg_3d.get("ccount", 200)
 
     surf = ax.plot_surface(x, y, z, facecolors=cmap(norm(r)), edgecolor='none', 
-                            linewidth=0, antialiased=True, shade=True)
+                            rcount=rcount, ccount=ccount, antialiased=True, shade=True)
 
     mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
     mappable.set_array([])
-    cbar = plt.colorbar(mappable, ax=ax, shrink=0.6, aspect=10)
+    cbar = plt.colorbar(mappable, ax=ax, shrink=0.5, aspect=15, pad=0.1)
     
-    label_font = get_style(style_config, "label_font", {'fontsize': 12, 'fontweight': 'bold'})
-    cbar.set_label("Young's Modulus (GPa)", **label_font)
+    label_font = {
+        'fontsize': cfg_3d.get("label_size", 14),
+        'fontweight': cfg_3d.get("font_weight", "normal"),
+        'family': cfg_3d.get("font_family", plt.rcParams["font.family"])
+    }
+    cbar.set_label("Young's Modulus (GPa)", labelpad=15, **label_font)
 
-    ax.set_xlabel("X Axis", **label_font)
-    ax.set_ylabel("Y Axis", **label_font)
-    ax.set_zlabel("Z Axis", **label_font)
-    ax.view_init(elev=35, azim=135)
+    max_val = np.max([np.max(np.abs(x)), np.max(np.abs(y)), np.max(np.abs(z))])
+    limit = max_val * 1.3
+    ax.set_xlim(-limit, limit)
+    ax.set_ylim(-limit, limit)
+    ax.set_zlim(-limit, limit)
+
+    ax.set_xlabel("X (GPa)", labelpad=15, **label_font)
+    ax.set_ylabel("Y (GPa)", labelpad=15, **label_font)
+    ax.set_zlabel("Z (GPa)", labelpad=15, **label_font)
+    
+    ax.tick_params(axis='both', which='major', labelsize=label_font['fontsize']-2)
+    
+    elev = cfg_3d.get("view_elevation", 20)
+    azim = cfg_3d.get("view_azimuth", 45)
+    ax.view_init(elev=elev, azim=azim)
 
     filename = f"{prefix}_Youngs_Modulus_3D.png"
-    dpi = get_style(style_config, "dpi", 300)
-    transparent = fig_config.get("transparent", True)
-    plt.savefig(filename, dpi=dpi, bbox_inches='tight', transparent=transparent)
+    gen = style_config.get("general", {}) if style_config else {}
+    dpi = gen.get("dpi", 300)
+    transparent = gen.get("transparent", True)
+    plt.savefig(filename, dpi=dpi, bbox_inches='tight', pad_inches=0.8, transparent=transparent)
+    if show:
+        plt.show()
     plt.close()
     print(f"Saved 3D Young's Modulus plot to {filename}")
 
-def plot_shear_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None) -> None:
-    """Generates 2D polar plots of min/max Shear Modulus in XY, YZ, and ZX planes.
-
-    Args:
-        material: The Elastic material object.
-        prefix: Prefix for the output filename.
-        style_config: Optional dictionary with matplotlib style settings.
-    """
-    phi = np.linspace(0, 2 * np.pi, 100)
+def plot_shear_2d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+    """Generates 2D polar plots of Shear Modulus."""
+    set_publishable_style(style_config)
     
-    # XY Plane
+    cfg_2d = get_style(style_config, "plots_2d", {})
+    phi = np.linspace(0, 2 * np.pi, 500)
+    
     f_xy = np.vectorize(lambda x: material.shear2D([np.pi / 2, x]))
-    r_xy = f_xy(phi)
+    r_xy_min, r_xy_max = f_xy(phi)
 
-    # YZ Plane
-    f_yz = np.vectorize(lambda x: material.shear2D([x-np.pi/2, np.pi/2]))
-    r_yz = f_yz(phi)
+    f_yz = np.vectorize(lambda x: material.shear2D([x - np.pi/2, np.pi/2]))
+    r_yz_min, r_yz_max = f_yz(phi)
 
-    # ZX Plane
     f_zx = np.vectorize(lambda x: material.shear2D([x, 0]))
-    r_zx = f_zx(phi)
+    r_zx_min, r_zx_max = f_zx(phi)
 
-    fig_config = get_style(style_config, "figure", {})
-    figsize = fig_config.get("figsize_2d", [15, 5])
-    
+    figsize = cfg_2d.get("figsize", [15, 6])
     fig, axes = plt.subplots(1, 3, subplot_kw={'projection': 'polar'}, figsize=figsize)
-    title_font = get_style(style_config, "title_font", {'fontsize': 14, 'fontweight': 'bold', 'family': 'sans-serif'})
     
-    line_config = get_style(style_config, "line", {})
-    min_color = line_config.get("color", "b")
-    max_color = line_config.get("max_color", "r")
-    line_width = line_config.get("width", 3)
+    title_font = {
+        'fontsize': cfg_2d.get("title_size", 18),
+        'fontweight': cfg_2d.get("font_weight", "bold"),
+        'family': cfg_2d.get("font_family", plt.rcParams["font.family"])
+    }
+    
+    label_font_size = cfg_2d.get("label_size", 12)
+    min_color = cfg_2d.get("min_color", "#0072B2")
+    max_color = cfg_2d.get("max_color", "#D55E00")
+    line_width = cfg_2d.get("line_width", 3.0)
 
-    axes[0].plot(phi, r_xy[0], color=min_color, linewidth=line_width, label='Min')
-    axes[0].plot(phi, r_xy[1], color=max_color, linewidth=line_width, label='Max')
-    axes[0].set_title("XY Plane", fontdict=title_font)
-    axes[0].legend()
+    planes = ["XY Plane", "YZ Plane", "ZX Plane"]
+    mins = [r_xy_min, r_yz_min, r_zx_min]
+    maxs = [r_xy_max, r_yz_max, r_zx_max]
 
-    axes[1].plot(phi, r_yz[0], color=min_color, linewidth=line_width)
-    axes[1].plot(phi, r_yz[1], color=max_color, linewidth=line_width)
-    axes[1].set_title("YZ Plane", fontdict=title_font)
-
-    axes[2].plot(phi, r_zx[0], color=min_color, linewidth=line_width)
-    axes[2].plot(phi, r_zx[1], color=max_color, linewidth=line_width)
-    axes[2].set_title("ZX Plane", fontdict=title_font)
-
-    for ax in axes:
+    for i, ax in enumerate(axes):
+        ax.plot(phi, mins[i], color=min_color, linewidth=line_width, label='Min')
+        ax.plot(phi, maxs[i], color=max_color, linewidth=line_width, label='Max')
+        ax.set_title(planes[i], pad=25, fontdict=title_font)
+        ax.tick_params(labelsize=label_font_size)
         ax.grid(True)
+        ax.set_theta_zero_location('N')
+        ax.set_theta_direction(-1)
+        if i == 2:
+            ax.legend(loc='lower right', bbox_to_anchor=(1.3, 0.1), fontsize=label_font_size)
 
     plt.tight_layout()
     filename = f"{prefix}_Shear_Modulus_Polar_2D.png"
-    dpi = get_style(style_config, "dpi", 300)
+    dpi = get_style(style_config.get("general", {}), "dpi", 300) if style_config else 300
     plt.savefig(filename, dpi=dpi)
+    if show:
+        plt.show()
     plt.close()
     print(f"Saved 2D Shear Modulus plot to {filename}")
 
-def plot_shear_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None) -> None:
-    """Generates a 3D surface plot of Maximum Shear Modulus directional dependence.
-
-    Note:
-        Due to the extra degree of freedom (chi rotation), this calculates the 
-        global maximum shear modulus for each direction (theta, phi).
-
-    Args:
-        material: The Elastic material object.
-        prefix: Prefix for the output filename.
-        style_config: Optional dictionary with matplotlib style settings.
-    """
-    def spherical_grid(npoints=100):
+def plot_shear_3d(material: Elastic, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False) -> None:
+    """Generates a 3D surface plot of Maximum Shear Modulus."""
+    set_publishable_style(style_config)
+    
+    cfg_3d = get_style(style_config, "plots_3d", {})
+    
+    def spherical_grid(npoints=200):
         theta = np.linspace(0, np.pi, npoints)
         phi = np.linspace(0, 2 * np.pi, npoints)
         return np.meshgrid(theta, phi)
@@ -199,45 +227,63 @@ def plot_shear_3d(material: Elastic, prefix: str, style_config: Optional[Dict[st
         z = r * np.cos(theta)
         return x, y, z
 
-    theta, phi = spherical_grid(npoints=60) # Lower resolution for expensive optimization
-    
-    # shear3D returns (min, max, chi_min, chi_max)
-    f = np.vectorize(lambda t, p: material.shear3D(t, p)[1]) # We plot the Max shear modulus
+    theta, phi = spherical_grid(npoints=150)
+    f = np.vectorize(lambda t, p: material.shear3D(t, p)[1])
     r = f(theta, phi)
 
     x, y, z = spherical_coord(r, theta, phi)
     
-    fig_config = get_style(style_config, "figure", {})
-    figsize = fig_config.get("figsize_3d", [10, 10])
-    
+    figsize = cfg_3d.get("figsize", [12, 10])
     fig = plt.figure(figsize=figsize)
-    ax = plt.axes(projection="3d")
+    ax = fig.add_subplot(111, projection="3d")
+    ax.set_box_aspect([1,1,1])
 
-    vmin = style_config.get("vmin") if style_config and style_config.get("vmin") is not None else np.min(r)
-    vmax = style_config.get("vmax") if style_config and style_config.get("vmax") is not None else np.max(r)
+    vmin = cfg_3d.get("vmin") if cfg_3d.get("vmin") is not None else np.min(r)
+    vmax = cfg_3d.get("vmax") if cfg_3d.get("vmax") is not None else np.max(r)
     
     norm = colors.Normalize(vmin=vmin, vmax=vmax)
-    cmap_name = get_style(style_config, "colormap", "magma")
+    cmap_name = cfg_3d.get("colormap", "magma")
     cmap = getattr(cm, cmap_name, cm.magma)
 
+    rcount = cfg_3d.get("rcount", 150)
+    ccount = cfg_3d.get("ccount", 150)
+
     surf = ax.plot_surface(x, y, z, facecolors=cmap(norm(r)), edgecolor='none', 
-                            linewidth=0, antialiased=True, shade=True)
+                            rcount=rcount, ccount=ccount, antialiased=True, shade=True)
 
     mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
     mappable.set_array([])
-    cbar = plt.colorbar(mappable, ax=ax, shrink=0.6, aspect=10)
+    cbar = plt.colorbar(mappable, ax=ax, shrink=0.5, aspect=15, pad=0.1)
     
-    label_font = get_style(style_config, "label_font", {'fontsize': 12, 'fontweight': 'bold'})
-    cbar.set_label("Max Shear Modulus (GPa)", **label_font)
+    label_font = {
+        'fontsize': cfg_3d.get("label_size", 14),
+        'fontweight': cfg_3d.get("font_weight", "normal"),
+        'family': cfg_3d.get("font_family", plt.rcParams["font.family"])
+    }
+    cbar.set_label("Max Shear Modulus (GPa)", labelpad=15, **label_font)
 
-    ax.set_xlabel("X Axis", **label_font)
-    ax.set_ylabel("Y Axis", **label_font)
-    ax.set_zlabel("Z Axis", **label_font)
-    ax.view_init(elev=35, azim=135)
+    max_val = np.max([np.max(np.abs(x)), np.max(np.abs(y)), np.max(np.abs(z))])
+    limit = max_val * 1.3
+    ax.set_xlim(-limit, limit)
+    ax.set_ylim(-limit, limit)
+    ax.set_zlim(-limit, limit)
+
+    ax.set_xlabel("X (GPa)", labelpad=15, **label_font)
+    ax.set_ylabel("Y (GPa)", labelpad=15, **label_font)
+    ax.set_zlabel("Z (GPa)", labelpad=15, **label_font)
+    
+    ax.tick_params(axis='both', which='major', labelsize=label_font['fontsize']-2)
+    
+    elev = cfg_3d.get("view_elevation", 20)
+    azim = cfg_3d.get("view_azimuth", 45)
+    ax.view_init(elev=elev, azim=azim)
 
     filename = f"{prefix}_Shear_Modulus_3D.png"
-    dpi = get_style(style_config, "dpi", 300)
-    transparent = fig_config.get("transparent", True)
-    plt.savefig(filename, dpi=dpi, bbox_inches='tight', transparent=transparent)
+    gen = style_config.get("general", {}) if style_config else {}
+    dpi = gen.get("dpi", 300)
+    transparent = gen.get("transparent", True)
+    plt.savefig(filename, dpi=dpi, bbox_inches='tight', pad_inches=0.8, transparent=transparent)
+    if show:
+        plt.show()
     plt.close()
     print(f"Saved 3D Shear Modulus plot to {filename}")
