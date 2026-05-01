@@ -19,7 +19,7 @@
 You can install the package locally for development:
 
 ```bash
-pip install -e .
+pip install .
 ```
 
 ## Usage
