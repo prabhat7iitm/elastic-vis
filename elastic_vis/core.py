@@ -117,11 +117,11 @@ class Elastic:
         if isinstance(s, (np.ndarray, list)):
             mat = s
         elif isinstance(s, str):
-            s = s.replace("|", " ").replace("(", " ").replace(")", " ")
+            s = s.replace("|", " ").replace("(", " ").replace(")", " ").replace(",", " ")
             lines = [line for line in s.split('\n') if line.strip()]
             if len(lines) == 3:
-                raise TypeError("is a 2D material")
-            if len(lines) != 6:
+                pass # Handled by Elastic2D logic if called from there, but Elastic class will still reject if not 6x6
+            elif len(lines) != 6:
                 raise ValueError("should have three or six rows")
             try:
                 mat = [list(map(float, line.split())) for line in lines]
@@ -142,9 +142,10 @@ class Elastic:
         if mat.shape != (6,6):
             raise ValueError("input must be a 6x6 stiffness matrix")
 
-        if np.linalg.norm(np.tril(mat, -1)) == 0:
+        # Robust check for triangularity
+        if np.linalg.norm(np.tril(mat, -1)) < 1e-6:
             mat = mat + np.triu(mat, 1).transpose()
-        if np.linalg.norm(np.triu(mat, 1)) == 0:
+        elif np.linalg.norm(np.triu(mat, 1)) < 1e-6:
             mat = mat + np.tril(mat, -1).transpose()
         
         if np.linalg.norm(mat - mat.transpose()) > 1e-3:
@@ -380,7 +381,7 @@ class Elastic2D:
                 pass
 
         if isinstance(s, str):
-            s = s.replace("|", " ").replace("(", " ").replace(")", " ")
+            s = s.replace("|", " ").replace("(", " ").replace(")", " ").replace(",", " ")
             lines = [line for line in s.split('\n') if line.strip()]
             if len(lines) != 3:
                 raise ValueError("should have three rows")
@@ -401,10 +402,12 @@ class Elastic2D:
         if not isinstance(mat, np.ndarray) or mat.shape != (3,3):
             raise ValueError("input must be a 3x3 stiffness matrix")
 
-        if np.linalg.norm(np.tril(mat, -1)) == 0:
+        # Robust check for triangularity
+        if np.linalg.norm(np.tril(mat, -1)) < 1e-6:
             mat = mat + np.triu(mat, 1).transpose()
-        if np.linalg.norm(np.triu(mat, 1)) == 0:
+        elif np.linalg.norm(np.triu(mat, 1)) < 1e-6:
             mat = mat + np.tril(mat, -1).transpose()
+
         if np.linalg.norm(mat - mat.transpose()) > 1e-3:
             raise ValueError("should be symmetric, or triangular")
         elif np.linalg.norm(mat - mat.transpose()) > 0:
@@ -446,8 +449,8 @@ class Elastic2D:
                + self.s26*(ct**3*st - st**3*ct))
         denom = ((2*self.s12 + self.s66)*ct**2*st**2
                  + self.s11*ct**4 + self.s22*st**4
-                 + 2*self.s16*st**3*ct
-                 + 2*self.s26*ct**3*st)
+                 + 2*self.s16*ct**3*st
+                 + 2*self.s26*ct*st**3)
         return -num/denom
 
     def eigenvalues(self) -> np.ndarray:

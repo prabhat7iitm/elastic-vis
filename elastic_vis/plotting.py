@@ -546,3 +546,67 @@ def plot_shear_3d(material: Elastic, prefix: str, style_config: Optional[Dict[st
         plt.show()
     plt.close()
     print(f"Saved 3D Shear Modulus plot to {filename}")
+
+
+def plot_youngs_2d_single(material, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False, output_format: str = "png") -> None:
+    """Generates a single 2D polar plot for 2D Young's Modulus."""
+    set_publishable_style(style_config)
+    cfg_2d = get_style(style_config, "plots_2d", {})
+    phi = np.linspace(0, 2 * np.pi, 500)
+    r = np.vectorize(material.Young)(phi)
+
+    fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(8, 7))
+    line_color = cfg_2d.get("line_color", "#0072B2")
+    line_width = cfg_2d.get("line_width", 3.0)
+    ax.plot(phi, r, color=line_color, linewidth=line_width)
+    ax.set_title("Young's Modulus (2D)", pad=20, fontsize=cfg_2d.get("title_size", 18))
+    ax.set_theta_zero_location('E')
+    ax.grid(True)
+    
+    filename = build_filename(prefix, "Youngs_Modulus_2D", output_format)
+    plt.savefig(filename, dpi=get_style(style_config.get("general", {}), "dpi", 300) if style_config else 300)
+    if show: plt.show()
+    plt.close()
+    print(f"Saved 2D Young's Modulus plot to {filename}")
+
+def plot_shear_2d_single(material, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False, output_format: str = "png") -> None:
+    """Generates a single 2D polar plot for 2D Shear Modulus."""
+    set_publishable_style(style_config)
+    cfg_2d = get_style(style_config, "plots_2d", {})
+    phi = np.linspace(0, 2 * np.pi, 500)
+    r = np.vectorize(material.shear)(phi)
+
+    fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(8, 7))
+    line_color = cfg_2d.get("line_color", "#009E73")
+    line_width = cfg_2d.get("line_width", 3.0)
+    ax.plot(phi, r, color=line_color, linewidth=line_width)
+    ax.set_title("Shear Modulus (2D)", pad=20, fontsize=cfg_2d.get("title_size", 18))
+    ax.set_theta_zero_location('E')
+    ax.grid(True)
+    
+    filename = build_filename(prefix, "Shear_Modulus_2D", output_format)
+    plt.savefig(filename, dpi=get_style(style_config.get("general", {}), "dpi", 300) if style_config else 300)
+    if show: plt.show()
+    plt.close()
+    print(f"Saved 2D Shear Modulus plot to {filename}")
+
+def plot_poisson_2d_single(material, prefix: str, style_config: Optional[Dict[str, Any]] = None, show: bool = False, output_format: str = "png") -> None:
+    """Generates a single 2D polar plot for 2D Poisson's Ratio."""
+    set_publishable_style(style_config)
+    cfg_2d = get_style(style_config, "plots_2d", {})
+    phi = np.linspace(0, 2 * np.pi, 500)
+    r = np.vectorize(material.Poisson)(phi)
+
+    fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(8, 7))
+    line_color = cfg_2d.get("line_color", "#D55E00")
+    line_width = cfg_2d.get("line_width", 3.0)
+    ax.plot(phi, r, color=line_color, linewidth=line_width)
+    ax.set_title("Poisson's Ratio (2D)", pad=20, fontsize=cfg_2d.get("title_size", 18))
+    ax.set_theta_zero_location('E')
+    ax.grid(True)
+    
+    filename = build_filename(prefix, "Poisson_Ratio_2D", output_format)
+    plt.savefig(filename, dpi=get_style(style_config.get("general", {}), "dpi", 300) if style_config else 300)
+    if show: plt.show()
+    plt.close()
+    print(f"Saved 2D Poisson's Ratio plot to {filename}")

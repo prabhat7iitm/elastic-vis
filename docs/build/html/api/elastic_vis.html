@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>elastic_vis package &mdash; elastic-vis 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="elastic_vis" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            elastic-vis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">elastic_vis</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">elastic_vis package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-elastic_vis.cli">elastic_vis.cli module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-elastic_vis.core">elastic_vis.core module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.Elastic"><code class="docutils literal notranslate"><span class="pre">Elastic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.Elastic2D"><code class="docutils literal notranslate"><span class="pre">Elastic2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.ElasticOrtho"><code class="docutils literal notranslate"><span class="pre">ElasticOrtho</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.dirVec"><code class="docutils literal notranslate"><span class="pre">dirVec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.dirVec1"><code class="docutils literal notranslate"><span class="pre">dirVec1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.dirVec2"><code class="docutils literal notranslate"><span class="pre">dirVec2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.maximize"><code class="docutils literal notranslate"><span class="pre">maximize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.core.minimize"><code class="docutils literal notranslate"><span class="pre">minimize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-elastic_vis.plotting">elastic_vis.plotting module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.build_filename"><code class="docutils literal notranslate"><span class="pre">build_filename()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.get_style"><code class="docutils literal notranslate"><span class="pre">get_style()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_lc_2d"><code class="docutils literal notranslate"><span class="pre">plot_lc_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_lc_3d"><code class="docutils literal notranslate"><span class="pre">plot_lc_3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_poisson_2d"><code class="docutils literal notranslate"><span class="pre">plot_poisson_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_poisson_2d_single"><code class="docutils literal notranslate"><span class="pre">plot_poisson_2d_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_poisson_3d"><code class="docutils literal notranslate"><span class="pre">plot_poisson_3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_shear_2d"><code class="docutils literal notranslate"><span class="pre">plot_shear_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_shear_2d_single"><code class="docutils literal notranslate"><span class="pre">plot_shear_2d_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_shear_3d"><code class="docutils literal notranslate"><span class="pre">plot_shear_3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_youngs_2d"><code class="docutils literal notranslate"><span class="pre">plot_youngs_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_youngs_2d_single"><code class="docutils literal notranslate"><span class="pre">plot_youngs_2d_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.plot_youngs_3d"><code class="docutils literal notranslate"><span class="pre">plot_youngs_3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plotting.set_publishable_style"><code class="docutils literal notranslate"><span class="pre">set_publishable_style()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-elastic_vis">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.Elastic"><code class="docutils literal notranslate"><span class="pre">Elastic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.Elastic2D"><code class="docutils literal notranslate"><span class="pre">Elastic2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.ElasticOrtho"><code class="docutils literal notranslate"><span class="pre">ElasticOrtho</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_lc_2d"><code class="docutils literal notranslate"><span class="pre">plot_lc_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_lc_3d"><code class="docutils literal notranslate"><span class="pre">plot_lc_3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_poisson_2d"><code class="docutils literal notranslate"><span class="pre">plot_poisson_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_poisson_3d"><code class="docutils literal notranslate"><span class="pre">plot_poisson_3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_shear_2d"><code class="docutils literal notranslate"><span class="pre">plot_shear_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_shear_3d"><code class="docutils literal notranslate"><span class="pre">plot_shear_3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_youngs_2d"><code class="docutils literal notranslate"><span class="pre">plot_youngs_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic_vis.plot_youngs_3d"><code class="docutils literal notranslate"><span class="pre">plot_youngs_3d()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">elastic-vis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">elastic_vis</a></li>
+      <li class="breadcrumb-item active">elastic_vis package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/elastic_vis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="elastic-vis-package">
+<h1>elastic_vis package<a class="headerlink" href="#elastic-vis-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-elastic_vis.cli">
+<span id="elastic-vis-cli-module"></span><h2>elastic_vis.cli module<a class="headerlink" href="#module-elastic_vis.cli" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.cli.main">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.cli.main" title="Link to this definition"></a></dt>
+<dd><p>The main entry point for the elastic-vis command-line interface.</p>
+<p>Parses command-line arguments, calculates elastic properties from an input
+stiffness matrix, and optionally generates visualization plots.</p>
+</dd></dl>
+
+</section>
+<section id="module-elastic_vis.core">
+<span id="elastic-vis-core-module"></span><h2>elastic_vis.core module<a class="headerlink" href="#module-elastic_vis.core" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">Elastic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An elastic tensor, along with methods to access its properties.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.CVoigt">
+<span class="sig-name descname"><span class="pre">CVoigt</span></span><a class="headerlink" href="#elastic_vis.core.Elastic.CVoigt" title="Link to this definition"></a></dt>
+<dd><p>The 6x6 stiffness matrix in Voigt notation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.SVoigt">
+<span class="sig-name descname"><span class="pre">SVoigt</span></span><a class="headerlink" href="#elastic_vis.core.Elastic.SVoigt" title="Link to this definition"></a></dt>
+<dd><p>The 6x6 compliance matrix in Voigt notation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.Smat">
+<span class="sig-name descname"><span class="pre">Smat</span></span><a class="headerlink" href="#elastic_vis.core.Elastic.Smat" title="Link to this definition"></a></dt>
+<dd><p>The 4th order compliance tensor in Cartesian coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.LC">
+<span class="sig-name descname"><span class="pre">LC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.LC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.LC" title="Link to this definition"></a></dt>
+<dd><p>Calculates Linear Compressibility for a given direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi] defining the direction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The linear compressibility.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.LC_2">
+<span class="sig-name descname"><span class="pre">LC_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.LC_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.LC_2" title="Link to this definition"></a></dt>
+<dd><p>Calculates Linear Compressibility for a given theta and phi.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.Poisson">
+<span class="sig-name descname"><span class="pre">Poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.Poisson" title="Link to this definition"></a></dt>
+<dd><p>Calculates Poisson’s Ratio for a given direction and orientation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi, chi] defining direction and orientation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Poisson’s Ratio.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.Poisson2D">
+<span class="sig-name descname"><span class="pre">Poisson2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Poisson2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.Poisson2D" title="Link to this definition"></a></dt>
+<dd><p>Finds min and max Poisson’s ratio for a direction [theta, phi].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.Poisson3D">
+<span class="sig-name descname"><span class="pre">Poisson3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Poisson3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.Poisson3D" title="Link to this definition"></a></dt>
+<dd><p>Finds Poisson’s ratio extremes for a direction (theta, phi).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.Young">
+<span class="sig-name descname"><span class="pre">Young</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Young"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.Young" title="Link to this definition"></a></dt>
+<dd><p>Calculates Young’s Modulus for a given direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi] defining the direction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Young’s Modulus in GPa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.Young_2">
+<span class="sig-name descname"><span class="pre">Young_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Young_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.Young_2" title="Link to this definition"></a></dt>
+<dd><p>Calculates Young’s Modulus for a given theta and phi.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> – Polar angle in radians.</p></li>
+<li><p><strong>phi</strong> – Azimuthal angle in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Young’s Modulus in GPa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.averages">
+<span class="sig-name descname"><span class="pre">averages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.averages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.averages" title="Link to this definition"></a></dt>
+<dd><p>Calculates Voigt, Reuss, and Hill averages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing [KV, EV, GV, nV], [KR, ER, GR, nR], [KH, EH, GH, nH]
+where K is Bulk modulus, E is Young’s modulus, G is Shear modulus,
+and n is Poisson’s ratio.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.eigenvalues">
+<span class="sig-name descname"><span class="pre">eigenvalues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.eigenvalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.eigenvalues" title="Link to this definition"></a></dt>
+<dd><p>Calculates the eigenvalues of the stiffness matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.is2D">
+<span class="sig-name descname"><span class="pre">is2D</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.is2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.is2D" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the material is 2D.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.isCubic">
+<span class="sig-name descname"><span class="pre">isCubic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.isCubic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.isCubic" title="Link to this definition"></a></dt>
+<dd><p>Checks if the material is cubic.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.isOrthorhombic">
+<span class="sig-name descname"><span class="pre">isOrthorhombic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.isOrthorhombic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.isOrthorhombic" title="Link to this definition"></a></dt>
+<dd><p>Checks if the material is orthorhombic.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.shear">
+<span class="sig-name descname"><span class="pre">shear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.shear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.shear" title="Link to this definition"></a></dt>
+<dd><p>Calculates Shear Modulus for a given direction and orientation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi, chi] defining direction and orientation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Shear Modulus in GPa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.shear2D">
+<span class="sig-name descname"><span class="pre">shear2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.shear2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.shear2D" title="Link to this definition"></a></dt>
+<dd><p>Finds min and max shear modulus for a direction [theta, phi].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic.shear3D">
+<span class="sig-name descname"><span class="pre">shear3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.shear3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic.shear3D" title="Link to this definition"></a></dt>
+<dd><p>Finds min and max shear modulus for a direction (theta, phi).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic2D">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">Elastic2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic2D" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Elastic tensor for 2D materials.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic2D.Poisson">
+<span class="sig-name descname"><span class="pre">Poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.Poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic2D.Poisson" title="Link to this definition"></a></dt>
+<dd><p>Calculates 2D Poisson’s Ratio for a given angle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic2D.Young">
+<span class="sig-name descname"><span class="pre">Young</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.Young"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic2D.Young" title="Link to this definition"></a></dt>
+<dd><p>Calculates 2D Young’s Modulus for a given angle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic2D.eigenvalues">
+<span class="sig-name descname"><span class="pre">eigenvalues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.eigenvalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic2D.eigenvalues" title="Link to this definition"></a></dt>
+<dd><p>Calculates eigenvalues of the 2D stiffness matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic2D.is2D">
+<span class="sig-name descname"><span class="pre">is2D</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.is2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic2D.is2D" title="Link to this definition"></a></dt>
+<dd><p>Returns True.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.Elastic2D.shear">
+<span class="sig-name descname"><span class="pre">shear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.shear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.Elastic2D.shear" title="Link to this definition"></a></dt>
+<dd><p>Calculates 2D Shear Modulus for a given angle.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="elastic_vis.core.ElasticOrtho">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">ElasticOrtho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/elastic_vis/core.html#ElasticOrtho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.ElasticOrtho" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Elastic</span></code></a></p>
+<p>An elastic tensor for orthorhombic systems with optimized calculations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.ElasticOrtho.LC">
+<span class="sig-name descname"><span class="pre">LC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#ElasticOrtho.LC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.ElasticOrtho.LC" title="Link to this definition"></a></dt>
+<dd><p>Optimized Linear Compressibility calculation for orthorhombic symmetry.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.core.ElasticOrtho.Young">
+<span class="sig-name descname"><span class="pre">Young</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#ElasticOrtho.Young"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.ElasticOrtho.Young" title="Link to this definition"></a></dt>
+<dd><p>Optimized Young’s Modulus calculation for orthorhombic symmetry.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.core.dirVec">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">dirVec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#dirVec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.dirVec" title="Link to this definition"></a></dt>
+<dd><p>Return a unit vector associated with angles theta and phi.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> – The polar angle in radians.</p></li>
+<li><p><strong>phi</strong> – The azimuthal angle in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of three floats representing the unit vector [x, y, z].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.core.dirVec1">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">dirVec1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#dirVec1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.dirVec1" title="Link to this definition"></a></dt>
+<dd><p>Return the first unit vector associated with angles (theta, phi, chi).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> – The polar angle in radians.</p></li>
+<li><p><strong>phi</strong> – The azimuthal angle in radians.</p></li>
+<li><p><strong>chi</strong> – The rotation angle in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of three floats representing the first unit vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.core.dirVec2">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">dirVec2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#dirVec2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.dirVec2" title="Link to this definition"></a></dt>
+<dd><p>Return the second unit vector associated with angles (theta, phi, chi).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> – The polar angle in radians.</p></li>
+<li><p><strong>phi</strong> – The azimuthal angle in radians.</p></li>
+<li><p><strong>chi</strong> – The rotation angle in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of three floats representing the second unit vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.core.maximize">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">maximize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#maximize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.maximize" title="Link to this definition"></a></dt>
+<dd><p>Find the global maximum of a function with 2 or 3 parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – The function to maximize.</p></li>
+<li><p><strong>dim</strong> – Dimensionality of the function (2 or 3).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple (optimal_parameters, maximum_value).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.core.minimize">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.core.</span></span><span class="sig-name descname"><span class="pre">minimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#minimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.core.minimize" title="Link to this definition"></a></dt>
+<dd><p>Find the global minimum of a function with 2 or 3 parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – The function to minimize.</p></li>
+<li><p><strong>dim</strong> – Dimensionality of the function (2 for theta, phi; 3 for theta, phi, chi).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple (optimal_parameters, minimum_value).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-elastic_vis.plotting">
+<span id="elastic-vis-plotting-module"></span><h2>elastic_vis.plotting module<a class="headerlink" href="#module-elastic_vis.plotting" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.build_filename">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">build_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#build_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.build_filename" title="Link to this definition"></a></dt>
+<dd><p>Build a plot filename with the requested output format.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.get_style">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">get_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#get_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.get_style" title="Link to this definition"></a></dt>
+<dd><p>Helper to retrieve a style setting from config or return a default.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_lc_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_lc_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_lc_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_lc_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Linear Compressibility.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_lc_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_lc_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_lc_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_lc_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Linear Compressibility.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_poisson_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_poisson_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_poisson_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_poisson_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Poisson’s Ratio.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_poisson_2d_single">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_poisson_2d_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_poisson_2d_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_poisson_2d_single" title="Link to this definition"></a></dt>
+<dd><p>Generates a single 2D polar plot for 2D Poisson’s Ratio.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_poisson_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_poisson_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_poisson_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_poisson_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Poisson’s Ratio.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_shear_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_shear_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_shear_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_shear_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Shear Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_shear_2d_single">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_shear_2d_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_shear_2d_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_shear_2d_single" title="Link to this definition"></a></dt>
+<dd><p>Generates a single 2D polar plot for 2D Shear Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_shear_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_shear_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_shear_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_shear_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Maximum Shear Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_youngs_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_youngs_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_youngs_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_youngs_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Young’s Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_youngs_2d_single">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_youngs_2d_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_youngs_2d_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_youngs_2d_single" title="Link to this definition"></a></dt>
+<dd><p>Generates a single 2D polar plot for 2D Young’s Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.plot_youngs_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_youngs_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_youngs_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.plot_youngs_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Young’s Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plotting.set_publishable_style">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.plotting.</span></span><span class="sig-name descname"><span class="pre">set_publishable_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#set_publishable_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plotting.set_publishable_style" title="Link to this definition"></a></dt>
+<dd><p>Sets a clean, publication-quality style for matplotlib plots.</p>
+</dd></dl>
+
+</section>
+<section id="module-elastic_vis">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-elastic_vis" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="elastic_vis.Elastic">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">Elastic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An elastic tensor, along with methods to access its properties.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.CVoigt">
+<span class="sig-name descname"><span class="pre">CVoigt</span></span><a class="headerlink" href="#elastic_vis.Elastic.CVoigt" title="Link to this definition"></a></dt>
+<dd><p>The 6x6 stiffness matrix in Voigt notation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.SVoigt">
+<span class="sig-name descname"><span class="pre">SVoigt</span></span><a class="headerlink" href="#elastic_vis.Elastic.SVoigt" title="Link to this definition"></a></dt>
+<dd><p>The 6x6 compliance matrix in Voigt notation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.Smat">
+<span class="sig-name descname"><span class="pre">Smat</span></span><a class="headerlink" href="#elastic_vis.Elastic.Smat" title="Link to this definition"></a></dt>
+<dd><p>The 4th order compliance tensor in Cartesian coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.LC">
+<span class="sig-name descname"><span class="pre">LC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.LC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.LC" title="Link to this definition"></a></dt>
+<dd><p>Calculates Linear Compressibility for a given direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi] defining the direction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The linear compressibility.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.LC_2">
+<span class="sig-name descname"><span class="pre">LC_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.LC_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.LC_2" title="Link to this definition"></a></dt>
+<dd><p>Calculates Linear Compressibility for a given theta and phi.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.Poisson">
+<span class="sig-name descname"><span class="pre">Poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.Poisson" title="Link to this definition"></a></dt>
+<dd><p>Calculates Poisson’s Ratio for a given direction and orientation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi, chi] defining direction and orientation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Poisson’s Ratio.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.Poisson2D">
+<span class="sig-name descname"><span class="pre">Poisson2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Poisson2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.Poisson2D" title="Link to this definition"></a></dt>
+<dd><p>Finds min and max Poisson’s ratio for a direction [theta, phi].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.Poisson3D">
+<span class="sig-name descname"><span class="pre">Poisson3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Poisson3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.Poisson3D" title="Link to this definition"></a></dt>
+<dd><p>Finds Poisson’s ratio extremes for a direction (theta, phi).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.Young">
+<span class="sig-name descname"><span class="pre">Young</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Young"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.Young" title="Link to this definition"></a></dt>
+<dd><p>Calculates Young’s Modulus for a given direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi] defining the direction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Young’s Modulus in GPa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.Young_2">
+<span class="sig-name descname"><span class="pre">Young_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.Young_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.Young_2" title="Link to this definition"></a></dt>
+<dd><p>Calculates Young’s Modulus for a given theta and phi.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> – Polar angle in radians.</p></li>
+<li><p><strong>phi</strong> – Azimuthal angle in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Young’s Modulus in GPa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.averages">
+<span class="sig-name descname"><span class="pre">averages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.averages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.averages" title="Link to this definition"></a></dt>
+<dd><p>Calculates Voigt, Reuss, and Hill averages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing [KV, EV, GV, nV], [KR, ER, GR, nR], [KH, EH, GH, nH]
+where K is Bulk modulus, E is Young’s modulus, G is Shear modulus,
+and n is Poisson’s ratio.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.eigenvalues">
+<span class="sig-name descname"><span class="pre">eigenvalues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.eigenvalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.eigenvalues" title="Link to this definition"></a></dt>
+<dd><p>Calculates the eigenvalues of the stiffness matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.is2D">
+<span class="sig-name descname"><span class="pre">is2D</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.is2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.is2D" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the material is 2D.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.isCubic">
+<span class="sig-name descname"><span class="pre">isCubic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.isCubic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.isCubic" title="Link to this definition"></a></dt>
+<dd><p>Checks if the material is cubic.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.isOrthorhombic">
+<span class="sig-name descname"><span class="pre">isOrthorhombic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.isOrthorhombic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.isOrthorhombic" title="Link to this definition"></a></dt>
+<dd><p>Checks if the material is orthorhombic.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.shear">
+<span class="sig-name descname"><span class="pre">shear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.shear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.shear" title="Link to this definition"></a></dt>
+<dd><p>Calculates Shear Modulus for a given direction and orientation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – A list/array [theta, phi, chi] defining direction and orientation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Shear Modulus in GPa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.shear2D">
+<span class="sig-name descname"><span class="pre">shear2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.shear2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.shear2D" title="Link to this definition"></a></dt>
+<dd><p>Finds min and max shear modulus for a direction [theta, phi].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic.shear3D">
+<span class="sig-name descname"><span class="pre">shear3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic.shear3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic.shear3D" title="Link to this definition"></a></dt>
+<dd><p>Finds min and max shear modulus for a direction (theta, phi).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="elastic_vis.Elastic2D">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">Elastic2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic2D" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Elastic tensor for 2D materials.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic2D.Poisson">
+<span class="sig-name descname"><span class="pre">Poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.Poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic2D.Poisson" title="Link to this definition"></a></dt>
+<dd><p>Calculates 2D Poisson’s Ratio for a given angle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic2D.Young">
+<span class="sig-name descname"><span class="pre">Young</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.Young"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic2D.Young" title="Link to this definition"></a></dt>
+<dd><p>Calculates 2D Young’s Modulus for a given angle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic2D.eigenvalues">
+<span class="sig-name descname"><span class="pre">eigenvalues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.eigenvalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic2D.eigenvalues" title="Link to this definition"></a></dt>
+<dd><p>Calculates eigenvalues of the 2D stiffness matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic2D.is2D">
+<span class="sig-name descname"><span class="pre">is2D</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.is2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic2D.is2D" title="Link to this definition"></a></dt>
+<dd><p>Returns True.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.Elastic2D.shear">
+<span class="sig-name descname"><span class="pre">shear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#Elastic2D.shear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.Elastic2D.shear" title="Link to this definition"></a></dt>
+<dd><p>Calculates 2D Shear Modulus for a given angle.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="elastic_vis.ElasticOrtho">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">ElasticOrtho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/elastic_vis/core.html#ElasticOrtho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.ElasticOrtho" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Elastic</span></code></a></p>
+<p>An elastic tensor for orthorhombic systems with optimized calculations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.ElasticOrtho.LC">
+<span class="sig-name descname"><span class="pre">LC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#ElasticOrtho.LC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.ElasticOrtho.LC" title="Link to this definition"></a></dt>
+<dd><p>Optimized Linear Compressibility calculation for orthorhombic symmetry.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elastic_vis.ElasticOrtho.Young">
+<span class="sig-name descname"><span class="pre">Young</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/elastic_vis/core.html#ElasticOrtho.Young"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.ElasticOrtho.Young" title="Link to this definition"></a></dt>
+<dd><p>Optimized Young’s Modulus calculation for orthorhombic symmetry.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_lc_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_lc_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_lc_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_lc_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Linear Compressibility.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_lc_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_lc_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_lc_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_lc_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Linear Compressibility.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_poisson_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_poisson_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_poisson_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_poisson_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Poisson’s Ratio.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_poisson_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_poisson_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_poisson_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_poisson_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Poisson’s Ratio.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_shear_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_shear_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_shear_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_shear_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Shear Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_shear_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_shear_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_shear_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_shear_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Maximum Shear Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_youngs_2d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_youngs_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_youngs_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_youngs_2d" title="Link to this definition"></a></dt>
+<dd><p>Generates 2D polar plots of Young’s Modulus.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="elastic_vis.plot_youngs_3d">
+<span class="sig-prename descclassname"><span class="pre">elastic_vis.</span></span><span class="sig-name descname"><span class="pre">plot_youngs_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#elastic_vis.core.Elastic" title="elastic_vis.core.Elastic"><span class="pre">Elastic</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/elastic_vis/plotting.html#plot_youngs_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#elastic_vis.plot_youngs_3d" title="Link to this definition"></a></dt>
+<dd><p>Generates a 3D surface plot of Young’s Modulus.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="elastic_vis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Pranav.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
