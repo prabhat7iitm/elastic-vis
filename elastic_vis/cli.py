@@ -5,7 +5,7 @@ import json
 import numpy as np
 import pandas as pd
 from typing import NoReturn
-from .core import Elastic
+from .core import Elastic, Elastic2D
 from .plotting import (
     plot_youngs_2d, plot_youngs_3d,
     plot_shear_2d, plot_shear_3d,
@@ -54,21 +54,32 @@ def main() -> None:
     try:
         with open(args.input_file, 'r') as f:
             content = f.read()
-        
-        material = Elastic(content)
+
+        # Determine if it is 2D or 3D
+        temp_content = content.replace("|", " ").replace("(", " ").replace(")", " ").replace(",", " ")
+        lines = [line for line in temp_content.split('\n') if line.strip()]
+        if len(lines) == 3:
+            material = Elastic2D(content)
+        else:
+            material = Elastic(content)
     except Exception as e:
         print(f"Error parsing matrix: {e}")
         sys.exit(1)
 
     # Print basic properties
-    print("\n--- Elastic Properties ---")
-    averages = material.averages()
-    
-    df = pd.DataFrame(averages,
-                      columns=["Bulk (GPa)", "Young (GPa)", "Shear (GPa)", "Poisson"],
-                      index=["Voigt", "Reuss", "Hill"])
-    print(df)
-    
+    print(f"\n--- Elastic Properties ({'2D' if material.is2D() else '3D'}) ---")
+
+    if material.is2D():
+        # For 2D materials, we don't have Voigt/Reuss/Hill averages in the same way
+        # But we can print some basic info or just the eigenvalues
+        pass
+    else:
+        averages = material.averages()
+        df = pd.DataFrame(averages,
+                          columns=["Bulk (GPa)", "Young (GPa)", "Shear (GPa)", "Poisson"],
+                          index=["Voigt", "Reuss", "Hill"])
+        print(df)
+
     eigenvalues = material.eigenvalues()
     print(f"\nEigenvalues: {eigenvalues}")
     if np.all(eigenvalues > 0):
@@ -79,40 +90,54 @@ def main() -> None:
     # Handle Plotting
     if args.plot:
         prefix = args.output_prefix if args.output_prefix else os.path.splitext(os.path.basename(args.input_file))[0]
-        
+
         # Default to Young's if nothing specified but plot is true
         target_young = args.Young or (not (args.Shear or args.Poisson or args.LC))
         target_shear = args.Shear
         target_poisson = args.Poisson
         target_lc = args.LC
-        
-        # Default to both 2D and 3D if nothing specified
+
+        # Default to both 2D and 3D if nothing specified (3D ignored for 2D materials)
         do_2d = args.plot_2d or (not args.plot_3d)
         do_3d = args.plot_3d or (not args.plot_2d)
 
-        if target_young:
-            if do_2d:
-                plot_youngs_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
-            if do_3d:
-                plot_youngs_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
-        
-        if target_shear:
-            if do_2d:
-                plot_shear_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
-            if do_3d:
-                plot_shear_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+        if material.is2D():
+            # Special handling for 2D materials
+            # For now, we reuse 2D plotting functions if they are compatible or update them
+            from .plotting import (
+                plot_youngs_2d_single, plot_shear_2d_single, plot_poisson_2d_single
+            )
+            if target_young and do_2d:
+                plot_youngs_2d_single(material, prefix, style_config, show=args.show, output_format=args.output_format)
+            if target_shear and do_2d:
+                plot_shear_2d_single(material, prefix, style_config, show=args.show, output_format=args.output_format)
+            if target_poisson and do_2d:
+                plot_poisson_2d_single(material, prefix, style_config, show=args.show, output_format=args.output_format)
+            if target_lc:
+                print("Warning: Linear Compressibility plots not yet supported for 2D materials.")
+        else:
+            if target_young:
+                if do_2d:
+                    plot_youngs_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+                if do_3d:
+                    plot_youngs_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
 
-        if target_poisson:
-            if do_2d:
-                plot_poisson_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
-            if do_3d:
-                plot_poisson_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+            if target_shear:
+                if do_2d:
+                    plot_shear_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+                if do_3d:
+                    plot_shear_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
 
-        if target_lc:
-            if do_2d:
-                plot_lc_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
-            if do_3d:
-                plot_lc_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+            if target_poisson:
+                if do_2d:
+                    plot_poisson_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+                if do_3d:
+                    plot_poisson_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
 
+            if target_lc:
+                if do_2d:
+                    plot_lc_2d(material, prefix, style_config, show=args.show, output_format=args.output_format)
+                if do_3d:
+                    plot_lc_3d(material, prefix, style_config, show=args.show, output_format=args.output_format)
 if __name__ == "__main__":
     main()

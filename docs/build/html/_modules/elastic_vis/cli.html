@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>elastic_vis.cli &mdash; elastic-vis 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            elastic-vis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">elastic_vis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">elastic-vis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">elastic_vis.cli</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for elastic_vis.cli</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoReturn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Elastic</span><span class="p">,</span> <span class="n">Elastic2D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">plot_youngs_2d</span><span class="p">,</span> <span class="n">plot_youngs_3d</span><span class="p">,</span>
+    <span class="n">plot_shear_2d</span><span class="p">,</span> <span class="n">plot_shear_3d</span><span class="p">,</span>
+    <span class="n">plot_poisson_2d</span><span class="p">,</span> <span class="n">plot_poisson_3d</span><span class="p">,</span>
+    <span class="n">plot_lc_2d</span><span class="p">,</span> <span class="n">plot_lc_3d</span><span class="p">,</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../api/elastic_vis.html#elastic_vis.cli.main">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The main entry point for the elastic-vis command-line interface.</span>
+
+<span class="sd">    Parses command-line arguments, calculates elastic properties from an input</span>
+<span class="sd">    stiffness matrix, and optionally generates visualization plots.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Visualize anisotropic elastic properties from a stiffness tensor.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;input_file&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the file containing the 6x6 stiffness matrix (txt, csv, or json).&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--plot&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable plot generation.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--Young&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate Young&#39;s Modulus plots.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--Shear&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate Shear Modulus plots.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--Poisson&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate Poisson&#39;s Ratio plots.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--LC&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate Linear Compressibility plots.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--2D&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;plot_2d&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate 2D polar plots.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--3D&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;plot_3d&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate 3D surface plots.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output-prefix&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Prefix for output image files.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;output_format&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="s2">&quot;pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;svg&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file format for plots.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--style&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to a JSON file containing matplotlib style settings.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--show&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Show plots on screen.&quot;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: File </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">input_file</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">style_config</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">style</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">style</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Style file </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">style</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">style</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">style_config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error parsing style JSON: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="c1"># Determine if it is 2D or 3D</span>
+        <span class="n">temp_content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">temp_content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">material</span> <span class="o">=</span> <span class="n">Elastic2D</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">material</span> <span class="o">=</span> <span class="n">Elastic</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error parsing matrix: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Print basic properties</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Elastic Properties (</span><span class="si">{</span><span class="s1">&#39;2D&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">material</span><span class="o">.</span><span class="n">is2D</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;3D&#39;</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">material</span><span class="o">.</span><span class="n">is2D</span><span class="p">():</span>
+        <span class="c1"># For 2D materials, we don&#39;t have Voigt/Reuss/Hill averages in the same way</span>
+        <span class="c1"># But we can print some basic info or just the eigenvalues</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">averages</span> <span class="o">=</span> <span class="n">material</span><span class="o">.</span><span class="n">averages</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">averages</span><span class="p">,</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Bulk (GPa)&quot;</span><span class="p">,</span> <span class="s2">&quot;Young (GPa)&quot;</span><span class="p">,</span> <span class="s2">&quot;Shear (GPa)&quot;</span><span class="p">,</span> <span class="s2">&quot;Poisson&quot;</span><span class="p">],</span>
+                          <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Voigt&quot;</span><span class="p">,</span> <span class="s2">&quot;Reuss&quot;</span><span class="p">,</span> <span class="s2">&quot;Hill&quot;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">material</span><span class="o">.</span><span class="n">eigenvalues</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Eigenvalues: </span><span class="si">{</span><span class="n">eigenvalues</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">eigenvalues</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Material is mechanically stable.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Material is mechanically unstable.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Handle Plotting</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">plot</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">output_prefix</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output_prefix</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Default to Young&#39;s if nothing specified but plot is true</span>
+        <span class="n">target_young</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">Young</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">Shear</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">Poisson</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">LC</span><span class="p">))</span>
+        <span class="n">target_shear</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">Shear</span>
+        <span class="n">target_poisson</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">Poisson</span>
+        <span class="n">target_lc</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">LC</span>
+
+        <span class="c1"># Default to both 2D and 3D if nothing specified (3D ignored for 2D materials)</span>
+        <span class="n">do_2d</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">plot_2d</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">plot_3d</span><span class="p">)</span>
+        <span class="n">do_3d</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">plot_3d</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">plot_2d</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">material</span><span class="o">.</span><span class="n">is2D</span><span class="p">():</span>
+            <span class="c1"># Special handling for 2D materials</span>
+            <span class="c1"># For now, we reuse 2D plotting functions if they are compatible or update them</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">plot_youngs_2d_single</span><span class="p">,</span> <span class="n">plot_shear_2d_single</span><span class="p">,</span> <span class="n">plot_poisson_2d_single</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">target_young</span> <span class="ow">and</span> <span class="n">do_2d</span><span class="p">:</span>
+                <span class="n">plot_youngs_2d_single</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">target_shear</span> <span class="ow">and</span> <span class="n">do_2d</span><span class="p">:</span>
+                <span class="n">plot_shear_2d_single</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">target_poisson</span> <span class="ow">and</span> <span class="n">do_2d</span><span class="p">:</span>
+                <span class="n">plot_poisson_2d_single</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">target_lc</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Linear Compressibility plots not yet supported for 2D materials.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">target_young</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">do_2d</span><span class="p">:</span>
+                    <span class="n">plot_youngs_2d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">do_3d</span><span class="p">:</span>
+                    <span class="n">plot_youngs_3d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">target_shear</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">do_2d</span><span class="p">:</span>
+                    <span class="n">plot_shear_2d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">do_3d</span><span class="p">:</span>
+                    <span class="n">plot_shear_3d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">target_poisson</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">do_2d</span><span class="p">:</span>
+                    <span class="n">plot_poisson_2d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">do_3d</span><span class="p">:</span>
+                    <span class="n">plot_poisson_3d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">target_lc</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">do_2d</span><span class="p">:</span>
+                    <span class="n">plot_lc_2d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">do_3d</span><span class="p">:</span>
+                    <span class="n">plot_lc_3d</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">style_config</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Pranav.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
